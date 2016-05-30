@@ -1,5 +1,8 @@
 package com.bitlove.fetlife;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -26,6 +29,14 @@ public class FetlifeExceptionHandler implements Thread.UncaughtExceptionHandler 
 
     @Override
     public void uncaughtException(Thread thread, Throwable ex) {
+
+        StringWriter strw = new StringWriter();
+        ex.printStackTrace(new PrintWriter(strw));
+
+
+        ClipboardManager clipboard = (ClipboardManager) fetLifeApplication.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("FetLifeLog", strw.toString());
+        clipboard.setPrimaryClip(clip);
 
         File externalStorageDir = Environment.getExternalStorageDirectory();
         File myFile = new File(externalStorageDir, FILENAME_FETLIFE_LOG);
