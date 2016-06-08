@@ -2,8 +2,8 @@ deployment:
   production:
     branch: master
     commands:
-      - ./gradlew publishApkRelease
-        -Dorg.gradle.project.track=production
+      - ./gradlew assembleRelease
+      - cp -r project-name/build/outputs $CIRCLE_ARTIFACTS
   beta:
     branch: develop
     commands:
